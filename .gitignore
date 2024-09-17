@@ -1,4 +1,8 @@
 *.code-workspace
+*mock*
+*test*
+*working*
+philo
 
 # Prerequisites
 *.d
