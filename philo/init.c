@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:19:24 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/18 14:09:34 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/18 20:42:23 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_table *init_table(int philos, int t_die, int t_eat, int t_sleep, int n_meals)
 
     i = 0;
     table = (t_table *)malloc(sizeof(t_table));
+    table->kitchen_open = 1;
     table->n_philos = philos;
     table->t_die = t_die;
     table->t_eat = t_eat;

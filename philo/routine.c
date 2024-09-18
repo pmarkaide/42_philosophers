@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:30:10 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/18 15:26:10 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/18 20:41:45 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void *routine(void *arg)
     t_philo *philo = (t_philo *)arg; 
     t_table *table = philo->table;  
 
-    while(1)
+    while(table->kitchen_open)
     {
         eat(philo, table->t_eat);
         if(table->n_meals > 0)
