@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:19:24 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/18 09:28:39 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:09:34 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_table *init_table(int philos, int t_die, int t_eat, int t_sleep, int n_meals)
     while (i < philos)
     {
         table->philos[i].id = i;
+        table->philos[i].table = table;
         table->philos[i].n_meals = 0;
         table->philos[i].t_start = table->t_start;
         table->philos[i].t_last_meal = table->t_start;
