@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:30:10 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/18 14:48:59 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:56:50 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void go_sleep(t_philo *philo, int t_sleep)
     uint64_t t_now;
 
     t_now = get_time();
-    printf("%ld %d is sleeping\n", t_now - philo->t_start, philo->id);
+    printf("%ld %d is sleeping\n", t_now - philo->t_start, philo->id + 1);
     usleep(t_sleep * 1000);
 }
 
@@ -27,10 +27,10 @@ static void eat(t_philo *philo, int t_eat)
     int nb_philo;
 
     nb_philo = philo->table->n_philos;
-    t_now = get_time();
     pthread_mutex_lock(&philo->fork);
     pthread_mutex_lock(&philo->table->philos[(philo->id + 1) % nb_philo].fork);
-    printf("%ld %d is eating\n", t_now - philo->t_start, philo->id);
+    t_now = get_time();
+    printf("%ld %d is eating\n", t_now - philo->t_start, philo->id + 1);
     usleep(t_eat * 1000);
     pthread_mutex_unlock(&philo->fork);
     pthread_mutex_unlock(&philo->table->philos[(philo->id + 1) % nb_philo].fork);
@@ -43,7 +43,7 @@ static void think(t_philo *philo)
     uint64_t t_now;
 
     t_now = get_time();
-    printf("%ld %d is thinking\n", t_now - philo->t_start, philo->id);
+    printf("%ld %d is thinking\n", t_now - philo->t_start, philo->id + 1);
 }
 
 void *routine(void *arg)
