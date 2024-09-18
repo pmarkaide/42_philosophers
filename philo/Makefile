@@ -6,7 +6,7 @@
 #    By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 12:01:03 by pmarkaid          #+#    #+#              #
-#    Updated: 2024/09/17 16:04:36 by pmarkaid         ###   ########.fr        #
+#    Updated: 2024/09/18 09:38:15 by pmarkaid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,15 @@ NAME = philo
 
 SRCS =                              \
 	main.c 							\
-	init.c
+	init.c							\
+	routine.c						\
+	threads.c
 
 OBJS = $(SRCS:.c=.o)
 
 CC = cc 
 CFLAGS = -Wall -Werror -Wextra -g
+LDFLAGS = -lpthread
 DEBUG_FLAGS = -Wall -Werror -Wextra -fsanitize=address
 
 all: $(NAME)
@@ -28,10 +31,10 @@ all: $(NAME)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS)
 
 debug: $(OBJS)
-	$(CC) $(DEBUG_FLAGS) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(DEBUG_FLAGS) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS)
 
 clean:
 	rm -f $(OBJS)

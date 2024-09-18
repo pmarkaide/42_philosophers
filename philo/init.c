@@ -6,17 +6,17 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:19:24 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/17 16:22:53 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/18 09:28:39 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "philo.h"
 
-static uint64_t get_time(void)
+uint64_t get_time(void)
 {
     struct timeval time;
     gettimeofday(&time, NULL);
-    return (uint64_t)time.tv_sec * 1000000 + time.tv_usec;
+    return (uint64_t)time.tv_sec * 1000 + time.tv_usec / 1000;
 }
 
 t_table *init_table(int philos, int t_die, int t_eat, int t_sleep, int n_meals)
@@ -37,6 +37,7 @@ t_table *init_table(int philos, int t_die, int t_eat, int t_sleep, int n_meals)
     {
         table->philos[i].id = i;
         table->philos[i].n_meals = 0;
+        table->philos[i].t_start = table->t_start;
         table->philos[i].t_last_meal = table->t_start;
         pthread_mutex_init(&table->philos[i].fork, NULL);
         i++;
