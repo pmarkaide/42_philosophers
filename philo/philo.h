@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:01:07 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/18 14:14:47 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/18 20:41:12 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ typedef enum e_status
 
 typedef struct s_table
 {
+    int kitchen_open;
     int n_philos;
     int t_die;
     int t_eat;
     int t_sleep;
     int n_meals;
+    pthread_t waiter;
     t_philo *philos;
     uint64_t t_start;    
 } t_table;
