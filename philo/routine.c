@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:30:10 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/18 14:15:27 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:35:00 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static void eat(t_philo *philo, int t_eat)
     printf("%ld %d is eating\n", t_now - philo->t_start, philo->id);
     usleep(t_eat * 1000);
     pthread_mutex_unlock(&philo->fork);
+    philo->t_last_meal = get_time();
+    philo->n_meals++;
 }
 
 static void think(t_philo *philo)
@@ -45,8 +47,16 @@ void *routine(void *arg)
     t_philo *philo = (t_philo *)arg; 
     t_table *table = philo->table;  
 
-    eat(philo, table->t_eat);
-    go_sleep(philo, table->t_sleep);
-    think(philo);
+    while(1)
+    {
+        eat(philo, table->t_eat);
+        if(table->n_meals > 0)
+            {
+                if(philo->n_meals == table->n_meals)
+                break;
+            }
+        go_sleep(philo, table->t_sleep);
+        think(philo);
+    }
     return(NULL);
 }
