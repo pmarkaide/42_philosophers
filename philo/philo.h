@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:01:07 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/17 16:53:09 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/18 09:26:21 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct t_philo
 {
     int id;
     int n_meals;
+    uint64_t t_start;
     uint64_t t_last_meal;
     pthread_t th;
     pthread_mutex_t fork;
@@ -50,6 +51,7 @@ typedef struct s_table
 } t_table;
 
 /* init */
+uint64_t get_time(void);
 t_table *init_table(int philos, int t_die, int t_eat, int t_sleep, int n_meals);
 void handle_routine(t_table *table);
 
