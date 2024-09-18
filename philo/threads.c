@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:37:41 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/18 09:37:49 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:16:28 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void create_threads(t_table *table)
     i = 0;
     while (i < table->n_philos)
     {
-        pthread_create(&table->philos[i].th, NULL, routine, &table->philos[i]);
+        pthread_create(&table->philos[i].th, NULL, routine, (void *)&table->philos[i]);
         i++;
     }
 }
