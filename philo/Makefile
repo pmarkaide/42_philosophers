@@ -6,7 +6,7 @@
 #    By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 12:01:03 by pmarkaid          #+#    #+#              #
-#    Updated: 2024/09/17 16:57:47 by pmarkaid         ###   ########.fr        #
+#    Updated: 2024/09/18 09:38:15 by pmarkaid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ NAME = philo
 SRCS =                              \
 	main.c 							\
 	init.c							\
-	routine.c
+	routine.c						\
+	threads.c
 
 OBJS = $(SRCS:.c=.o)
 
