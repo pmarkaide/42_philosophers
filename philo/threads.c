@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:37:41 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/18 20:51:31 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/18 21:01:18 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void *monitor(void *arg)
             if((t_now - table->philos[i].t_last_meal) > (uint64_t)table->t_die)
             {
                 table->kitchen_open = 0;
-                printf("%ld %d had died\n", t_now, i + 1);
+                printf("%ld %d died\n", t_now - table->t_start, i + 1);
                 return NULL;
             }
             i++;
@@ -42,7 +42,7 @@ static void create_threads(t_table *table)
     int i;
     
     i = 0;
-    pthread_create(&table->waiter, NULL, monitor, (void *)&table);
+    pthread_create(&table->waiter, NULL, monitor, (void *)table);
     while (i < table->n_philos)
     {
         pthread_create(&table->philos[i].th, NULL, routine, (void *)&table->philos[i]);

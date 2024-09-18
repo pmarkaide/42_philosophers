@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:30:10 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/18 20:41:45 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/18 21:08:28 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,10 @@ void *routine(void *arg)
                 if(philo->n_meals == table->n_meals)
                 break;
             }
-        go_sleep(philo, table->t_sleep);
-        think(philo);
+        if(table->kitchen_open)
+            go_sleep(philo, table->t_sleep);
+        if(table->kitchen_open)
+            think(philo);
     }
     return(NULL);
 }
