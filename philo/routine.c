@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:30:10 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/18 15:23:09 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:26:10 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void eat(t_philo *philo, int t_eat)
     }
     else
     {
-        pthread_mutex_lock(&philo->table->philos[(philo->id - 1) % nb_philo].fork);
+        pthread_mutex_lock(&philo->table->philos[(philo->id + 1) % nb_philo].fork);
         pthread_mutex_lock(&philo->fork);
     }
     t_now = get_time();
