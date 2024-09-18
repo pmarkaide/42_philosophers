@@ -6,11 +6,25 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:37:41 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/18 21:01:18 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/18 21:36:09 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static int all_philos_full(t_table *table)
+{
+    int i;
+
+    i = 0;
+    while (i < table->n_philos)
+    {
+        if(table->philos[i].n_meals < table->n_meals)
+            return(0);
+        i++;
+    }
+    return(1);
+}
 
 static void *monitor(void *arg)
 {
@@ -24,6 +38,8 @@ static void *monitor(void *arg)
         while (i < table->n_philos)
         {
             t_now = get_time();
+            if(all_philos_full(table))
+                return(NULL);
             if((t_now - table->philos[i].t_last_meal) > (uint64_t)table->t_die)
             {
                 table->kitchen_open = 0;
