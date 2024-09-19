@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:00:59 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 08:55:22 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 09:55:22 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static int	eval_args(int argc, char **argv)
 int	main(int argc, char **argv)
 {
 	t_table	*table;
-	int		args[6];
 
 	eval_args(argc, argv);
 	if (argc != 5 && argc != 6)
