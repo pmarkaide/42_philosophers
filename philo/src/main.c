@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:00:59 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 15:25:04 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:46:13 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ void	microphone(t_table *table, char *msg, int id)
 
 	if (!table->kitchen_open)
 		return ;
+	pthread_mutex_lock(&table->microphone);
 	t_now = get_time();
 	printf("%ld %d %s\n", t_now - table->t_start, id + 1, msg);
+	pthread_mutex_unlock(&table->microphone);
 }
 
 static int	eval_args(int argc, char **argv)
