@@ -64,6 +64,6 @@ void					lock_forks(t_philo *philo, int id);
 void					unlock_forks(t_philo *philo, int id);
 void					clean_data(t_table *table);
 void					microphone(t_table *table, char *msg, int id);
-int is_kitchen_open(t_table *table);
+int						is_kitchen_open(t_table *table);
 
 #endif /* PHILO_H */

@@ -12,23 +12,22 @@
 
 #include "philo.h"
 
-int is_kitchen_open(t_table *table)
+int	is_kitchen_open(t_table *table)
 {
-    int open;
+	int	open;
 
-    pthread_mutex_lock(&table->meal);
-    open = table->kitchen_open;
-    pthread_mutex_unlock(&table->meal);
-
-    return open;
+	pthread_mutex_lock(&table->meal);
+	open = table->kitchen_open;
+	pthread_mutex_unlock(&table->meal);
+	return (open);
 }
 
 void	microphone(t_table *table, char *msg, int id)
 {
 	uint64_t	t_now;
 
-    if(!is_kitchen_open(table))
-		return;
+	if (!is_kitchen_open(table))
+		return ;
 	pthread_mutex_lock(&table->microphone);
 	t_now = get_time();
 	printf("%ld %d %s\n", t_now - table->t_start, id + 1, msg);

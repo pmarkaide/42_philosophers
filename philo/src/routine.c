@@ -49,14 +49,14 @@ void	*routine(void *arg)
 	while (1)
 	{
 		if (!is_kitchen_open(table))
-			break;
+			break ;
 		microphone(table, "is thinking", philo->id);
 		eat(philo, table->t_eat);
 		pthread_mutex_lock(&table->meal);
 		if (table->n_meals > 0 && philo->n_meals >= table->n_meals)
 		{
 			pthread_mutex_unlock(&table->meal);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&table->meal);
 		go_sleep(philo, table->t_sleep);
