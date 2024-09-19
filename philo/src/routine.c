@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:30:10 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 09:55:01 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 13:20:06 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	*routine(void *arg)
 	table = philo->table;
 	while (table->kitchen_open)
 	{
+		if (table->kitchen_open)
+			think(philo);
 		eat(philo, table->t_eat);
 		if (table->n_meals > 0)
 		{
@@ -61,8 +63,6 @@ void	*routine(void *arg)
 		}
 		if (table->kitchen_open)
 			go_sleep(philo, table->t_sleep);
-		if (table->kitchen_open)
-			think(philo);
 	}
 	return (NULL);
 }
