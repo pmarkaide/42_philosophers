@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:19:24 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 12:16:44 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:23:04 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,13 @@ void	lock_forks(t_philo *philo, int id)
 	{
 		pthread_mutex_lock(&philo->fork);
 		pthread_mutex_lock(&philo->table->philos[(id + 1) % nb_philo].fork);
+		printf("%ld %d has taken a fork\n", get_time() - philo->t_start, id + 1);
 	}
 	else
 	{
 		pthread_mutex_lock(&philo->table->philos[(id + 1) % nb_philo].fork);
 		pthread_mutex_lock(&philo->fork);
+		printf("%ld %d has taken a fork\n", get_time() - philo->t_start, id + 1);
 	}
 }
 
