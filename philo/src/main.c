@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:00:59 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 11:00:12 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:16:00 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,6 @@ int	main(int argc, char **argv)
 		argv[5] = "0";
 	table = init_table(argv);
 	handle_routine(table);
+	clean_data(table);
 	return (0);
 }
