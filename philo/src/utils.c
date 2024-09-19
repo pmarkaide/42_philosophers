@@ -6,11 +6,25 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:19:24 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 10:59:19 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:16:44 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void clean_data(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->n_philos)
+	{
+		pthread_mutex_destroy(&table->philos[i].fork);
+		i++;
+	}
+	free(table->philos);
+	free(table);
+}
 
 int	ft_atoi(const char *str)
 {
