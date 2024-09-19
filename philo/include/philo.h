@@ -59,8 +59,7 @@ t_table					*init_table(char **argv);
 int						ft_atoi(const char *str);
 void					*routine(void *arg);
 void					handle_routine(t_table *table);
-void	lock_forks(t_philo *philo, int id);
-void	unlock_forks(t_philo *philo, int id);
-
+void					lock_forks(t_philo *philo, int id);
+void					unlock_forks(t_philo *philo, int id);
 
 #endif /* PHILO_H */

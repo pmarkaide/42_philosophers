@@ -30,7 +30,7 @@ static int	eval_args(int argc, char **argv)
 			}
 			j++;
 		}
-		if(ft_atoi(argv[i]) == 0 || ft_atoi(argv[i]) == -1)
+		if (ft_atoi(argv[i]) == 0 || ft_atoi(argv[i]) == -1)
 		{
 			printf("Error: Integer is too big\n");
 			exit(1);
