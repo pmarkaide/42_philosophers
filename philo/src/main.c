@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:00:59 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 15:46:13 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:00:26 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ t_table	*init_table(char **argv)
 		table->philos[i].id = i;
 		table->philos[i].table = table;
 		table->philos[i].n_meals = 0;
-		table->philos[i].t_start = table->t_start;
 		table->philos[i].t_last_meal = table->t_start;
 		pthread_mutex_init(&table->philos[i].fork, NULL);
 		i++;

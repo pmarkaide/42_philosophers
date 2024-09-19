@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:01:07 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 15:24:09 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:59:58 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ typedef struct t_philo
 	int					id;
 	int					n_meals;
 	t_table				*table;
-	uint64_t			t_start;
 	uint64_t			t_last_meal;
 	pthread_t			th;
 	pthread_mutex_t		fork;
