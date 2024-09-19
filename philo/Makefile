@@ -6,7 +6,7 @@
 #    By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 12:01:03 by pmarkaid          #+#    #+#              #
-#    Updated: 2024/09/19 08:37:42 by pmarkaid         ###   ########.fr        #
+#    Updated: 2024/09/19 10:52:12 by pmarkaid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philo
 
 SRCS_FILES =                        \
 	main.c 							\
-	init.c							\
+	utils.c							\
 	routine.c						\
 	threads.c
 

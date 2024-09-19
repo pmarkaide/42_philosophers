@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:01:07 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 08:58:53 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:56:22 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,11 @@ typedef struct s_table
 /* init */
 uint64_t				get_time(void);
 t_table					*init_table(char **argv);
+int						ft_atoi(const char *str);
 void					*routine(void *arg);
 void					handle_routine(t_table *table);
+void	lock_forks(t_philo *philo, int id);
+void	unlock_forks(t_philo *philo, int id);
+
 
 #endif /* PHILO_H */
