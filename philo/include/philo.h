@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:01:07 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/18 20:41:12 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:58:53 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ typedef struct s_table
 
 /* init */
 uint64_t				get_time(void);
-t_table					*init_table(int philos, int t_die, int t_eat,
-							int t_sleep, int n_meals);
+t_table					*init_table(char **argv);
 void					*routine(void *arg);
 void					handle_routine(t_table *table);
 

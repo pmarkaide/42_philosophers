@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:19:24 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/18 20:42:23 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 08:57:57 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ uint64_t	get_time(void)
 	return ((uint64_t)time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-t_table	*init_table(int philos, int t_die, int t_eat, int t_sleep, int n_meals)
+t_table	*init_table(char **argv)
 {
 	t_table	*table;
 	int		i;
@@ -28,14 +28,14 @@ t_table	*init_table(int philos, int t_die, int t_eat, int t_sleep, int n_meals)
 	i = 0;
 	table = (t_table *)malloc(sizeof(t_table));
 	table->kitchen_open = 1;
-	table->n_philos = philos;
-	table->t_die = t_die;
-	table->t_eat = t_eat;
-	table->t_sleep = t_sleep;
-	table->n_meals = n_meals;
-	table->philos = (t_philo *)malloc(sizeof(t_philo) * philos);
+	table->n_philos = argv[1];
+	table->t_die = argv[2];
+	table->t_eat = argv[3];
+	table->t_sleep = argv[4];
+	table->n_meals = argv[5];
+	table->philos = (t_philo *)malloc(sizeof(t_philo) * table->n_philos);
 	table->t_start = get_time();
-	while (i < philos)
+	while (i < table->n_philos)
 	{
 		table->philos[i].id = i;
 		table->philos[i].table = table;
