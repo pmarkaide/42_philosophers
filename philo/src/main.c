@@ -6,11 +6,23 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:00:59 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 12:16:00 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:46:13 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	microphone(t_table *table, char *msg, int id)
+{
+	uint64_t	t_now;
+
+	if (!table->kitchen_open)
+		return ;
+	pthread_mutex_lock(&table->microphone);
+	t_now = get_time();
+	printf("%ld %d %s\n", t_now - table->t_start, id + 1, msg);
+	pthread_mutex_unlock(&table->microphone);
+}
 
 static int	eval_args(int argc, char **argv)
 {
@@ -65,6 +77,7 @@ t_table	*init_table(char **argv)
 		pthread_mutex_init(&table->philos[i].fork, NULL);
 		i++;
 	}
+	pthread_mutex_init(&table->microphone, NULL);
 	return (table);
 }
 
