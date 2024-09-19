@@ -6,11 +6,20 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:30:10 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 09:55:01 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:31:54 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static void	ft_usleep(uint64_t sleep_time)
+{
+	uint64_t	start;
+
+	start = get_time();
+	while ((get_time() - start) < sleep_time)
+		usleep(500);
+}
 
 static void	eat(t_philo *philo, int t_eat)
 {
@@ -21,7 +30,7 @@ static void	eat(t_philo *philo, int t_eat)
 	lock_forks(philo, id);
 	t_now = get_time();
 	printf("%ld %d is eating\n", t_now - philo->t_start, id + 1);
-	usleep(t_eat * 1000);
+	ft_usleep(t_eat);
 	unlock_forks(philo, id);
 	philo->t_last_meal = get_time();
 	philo->n_meals++;
@@ -33,7 +42,7 @@ static void	go_sleep(t_philo *philo, int t_sleep)
 
 	t_now = get_time();
 	printf("%ld %d is sleeping\n", t_now - philo->t_start, philo->id + 1);
-	usleep(t_sleep * 1000);
+	ft_usleep(t_sleep);
 }
 
 static void	think(t_philo *philo)
@@ -53,6 +62,8 @@ void	*routine(void *arg)
 	table = philo->table;
 	while (table->kitchen_open)
 	{
+		if (table->kitchen_open)
+			think(philo);
 		eat(philo, table->t_eat);
 		if (table->n_meals > 0)
 		{
@@ -61,8 +72,6 @@ void	*routine(void *arg)
 		}
 		if (table->kitchen_open)
 			go_sleep(philo, table->t_sleep);
-		if (table->kitchen_open)
-			think(philo);
 	}
 	return (NULL);
 }
