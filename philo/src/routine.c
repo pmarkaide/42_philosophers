@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:30:10 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 14:31:54 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:26:09 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,12 @@ static void	ft_usleep(uint64_t sleep_time)
 static void	eat(t_philo *philo, int t_eat)
 {
 	uint64_t	t_now;
-	int			id;
 
-	id = philo->id;
-	lock_forks(philo, id);
+	lock_forks(philo, philo->id);
 	t_now = get_time();
-	printf("%ld %d is eating\n", t_now - philo->t_start, id + 1);
+	microphone(philo->table, "is eating", philo->id);
 	ft_usleep(t_eat);
-	unlock_forks(philo, id);
+	unlock_forks(philo, philo->id);
 	philo->t_last_meal = get_time();
 	philo->n_meals++;
 }
@@ -41,7 +39,7 @@ static void	go_sleep(t_philo *philo, int t_sleep)
 	uint64_t	t_now;
 
 	t_now = get_time();
-	printf("%ld %d is sleeping\n", t_now - philo->t_start, philo->id + 1);
+	microphone(philo->table, "is sleeping", philo->id);
 	ft_usleep(t_sleep);
 }
 
@@ -50,7 +48,7 @@ static void	think(t_philo *philo)
 	uint64_t	t_now;
 
 	t_now = get_time();
-	printf("%ld %d is thinking\n", t_now - philo->t_start, philo->id + 1);
+	microphone(philo->table, "is thinking", philo->id);
 }
 
 void	*routine(void *arg)

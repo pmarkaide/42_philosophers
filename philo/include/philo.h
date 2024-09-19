@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:01:07 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 12:17:29 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:24:09 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_table
 	int					t_sleep;
 	int					n_meals;
 	pthread_t			waiter;
+	pthread_mutex_t		microphone;
 	t_philo				*philos;
 	uint64_t			t_start;
 }						t_table;
@@ -62,5 +63,6 @@ void					handle_routine(t_table *table);
 void					lock_forks(t_philo *philo, int id);
 void					unlock_forks(t_philo *philo, int id);
 void					clean_data(t_table *table);
+void					microphone(t_table *table, char *msg, int id);
 
 #endif /* PHILO_H */
