@@ -6,67 +6,72 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:37:41 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 21:48:15 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 22:12:59 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	all_philos_full(t_table *table)
+static int all_philos_full(t_table *table)
 {
-	int	i;
+    int i;
 
-	i = 0;
-	if(table->n_meals == 0)
-		return(0);
-	while (i < table->n_philos)
-	{
-		if (table->philos[i].n_meals < table->n_meals)
-			return (0);
-		i++;
-	}
-	return (1);
+    if (table->n_meals == 0)
+         return 0;
+    pthread_mutex_lock(&table->meal);
+    i = 0;
+    while (i < table->n_philos)
+    {
+        if (table->philos[i].n_meals < table->n_meals)
+        {
+            pthread_mutex_unlock(&table->meal);
+            return 0;
+        }
+        i++;
+    }
+    table->kitchen_open = 0;
+    pthread_mutex_unlock(&table->meal);
+    return 1;
 }
 
-static void	*monitor(void *arg)
+static int philo_is_dead(t_table *table)
 {
-	int			i;
-	uint64_t	t_now;
-	t_table		*table;
+    int i;
+    uint64_t t_now;
 
-	table = (t_table *)arg;
-	while (1)
-	{
-		pthread_mutex_lock(&table->meal);
-		if (!table->kitchen_open)
-		{
+    i = 0;
+    t_now = get_time();
+    while (i < table->n_philos)
+    {
+        pthread_mutex_lock(&table->meal);
+        if ((t_now - table->philos[i].t_last_meal) > (uint64_t)table->t_die)
+        {
+			table->kitchen_open = 0;
+			microphone(table, "died", i);
 			pthread_mutex_unlock(&table->meal);
-			break;
-		}
-		pthread_mutex_unlock(&table->meal);
-		i = 0;
-		while (i < table->n_philos)
-		{
-			pthread_mutex_lock(&table->meal);
-			if (all_philos_full(table))
-			{
-				table->kitchen_open = 0;
-				pthread_mutex_unlock(&table->meal);
-				break;
-			}
-			t_now = get_time();
-			if ((t_now - table->philos[i].t_last_meal) > (uint64_t)table->t_die)
-			{
-				microphone(table, "died", i);
-				table->kitchen_open = 0;
-				pthread_mutex_unlock(&table->meal);
-				return (NULL);
-			}
-			pthread_mutex_unlock(&table->meal);
-			i++;
-		}
-	}
-	return (NULL);
+            return (1);
+        }
+        pthread_mutex_unlock(&table->meal);
+        i++;
+    }
+    return (0);
+}
+
+static void *monitor(void *arg)
+{
+    t_table *table;
+
+    table = (t_table *)arg;
+    while (1)
+    {
+        if (!is_kitchen_open(table))
+            return (NULL);
+        if (all_philos_full(table))
+            return (NULL);
+		if(philo_is_dead(table))
+			return (NULL);
+    }
+    return (NULL);
 }
 
 static void	create_threads(t_table *table)
@@ -96,3 +101,4 @@ void	handle_routine(t_table *table)
 	}
 	pthread_join(table->waiter, NULL);
 }
+

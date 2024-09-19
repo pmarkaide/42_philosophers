@@ -6,23 +6,29 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:00:59 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 21:28:29 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 22:13:40 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+int is_kitchen_open(t_table *table)
+{
+    int open;
+
+    pthread_mutex_lock(&table->meal);
+    open = table->kitchen_open;
+    pthread_mutex_unlock(&table->meal);
+
+    return open;
+}
+
 void	microphone(t_table *table, char *msg, int id)
 {
 	uint64_t	t_now;
 
-	pthread_mutex_lock(&table->meal);  // or a dedicated mutex for kitchen_open
-	if (!table->kitchen_open)
-	{
-		pthread_mutex_unlock(&table->meal);
+    if(!is_kitchen_open(table))
 		return;
-	}
-	pthread_mutex_unlock(&table->meal);
 	pthread_mutex_lock(&table->microphone);
 	t_now = get_time();
 	printf("%ld %d %s\n", t_now - table->t_start, id + 1, msg);
@@ -100,7 +106,6 @@ int	main(int argc, char **argv)
 	if (argc == 5)
 		argv[5] = "0";
 	table = init_table(argv);
-	printf("n_meals is %d\n", table->n_meals);
 	handle_routine(table);
 	clean_data(table);
 	return (0);
