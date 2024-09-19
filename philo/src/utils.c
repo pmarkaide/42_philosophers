@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-void clean_data(t_table *table)
+void	clean_data(t_table *table)
 {
 	int	i;
 
