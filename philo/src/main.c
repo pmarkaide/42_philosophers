@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:00:59 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 16:00:26 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:08:34 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ t_table	*init_table(char **argv)
 		i++;
 	}
 	pthread_mutex_init(&table->microphone, NULL);
+	pthread_mutex_init(&table->meal, NULL);
 	return (table);
 }
 

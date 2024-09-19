@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:01:07 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 15:59:58 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:03:17 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_table
 	int					n_meals;
 	pthread_t			waiter;
 	pthread_mutex_t		microphone;
+	pthread_mutex_t		meal;
 	t_philo				*philos;
 	uint64_t			t_start;
 }						t_table;
