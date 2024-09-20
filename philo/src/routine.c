@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:30:10 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/20 15:47:50 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:26:29 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ static void	ft_usleep(uint64_t sleep_time)
 static void	eat(t_philo *philo, int t_eat)
 {
 	lock_forks(philo, philo->id);
+	microphone(philo->table, "is eating", philo->id);
+	ft_usleep(t_eat);
 	pthread_mutex_lock(&philo->table->meal);
 	philo->t_last_meal = get_time();
 	philo->n_meals++;
 	pthread_mutex_unlock(&philo->table->meal);
-	microphone(philo->table, "is eating", philo->id);
-	ft_usleep(t_eat);
 	unlock_forks(philo, philo->id);
 }
 
