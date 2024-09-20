@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:30:10 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/19 22:14:31 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/20 15:47:50 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,16 @@ static void	go_sleep(t_philo *philo, int t_sleep)
 {
 	microphone(philo->table, "is sleeping", philo->id);
 	ft_usleep(t_sleep);
+}
+
+void	handle_one_philo(t_table *table)
+{
+	pthread_create(&table->philos[0].th, NULL, routine,
+		(void *)&table->philos[0]);
+	pthread_mutex_lock(&table->philos[0].fork);
+	microphone(table, "has taken a fork", 0);
+	ft_usleep(table->t_die);
+	microphone(table, "died", 0);
 }
 
 void	*routine(void *arg)
