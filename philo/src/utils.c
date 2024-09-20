@@ -71,7 +71,6 @@ void	lock_forks(t_philo *philo, int id)
 		pthread_mutex_lock(&philo->fork);
 		microphone(philo->table, "has taken a fork", philo->id);
 	}
-	
 }
 
 void	unlock_forks(t_philo *philo, int id)
