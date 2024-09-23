@@ -6,13 +6,13 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:30:10 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/20 17:11:41 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:39:01 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	ft_usleep(uint64_t sleep_time)
+void	ft_usleep(uint64_t sleep_time)
 {
 	uint64_t	start;
 
@@ -26,12 +26,10 @@ static void	eat(t_philo *philo, int t_eat)
 	lock_forks(philo, philo->id);
 	pthread_mutex_lock(&philo->table->meal);
 	philo->t_last_meal = get_time();
+	philo->n_meals++;
 	pthread_mutex_unlock(&philo->table->meal);
 	microphone(philo->table, "is eating", philo->id);
 	ft_usleep(t_eat);
-	pthread_mutex_lock(&philo->table->meal);
-	philo->n_meals++;
-	pthread_mutex_unlock(&philo->table->meal);
 	unlock_forks(philo, philo->id);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:37:41 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/23 10:03:51 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:37:29 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ static void	*monitor(void *arg)
 	table = (t_table *)arg;
 	while (1)
 	{
+		ft_usleep(10);
 		if (!is_kitchen_open(table))
 			break ;
 		if (philo_is_dead(table))
