@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:19:24 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/20 10:23:30 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:54:37 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,19 @@ int	ft_atoi(const char *str)
 
 void	lock_forks(t_philo *philo, int id)
 {
-	int	nb_philo;
+	int	n_philo;
 
-	nb_philo = philo->table->n_philos;
+	n_philo = philo->table->n_philos;
 	if (id % 2 != 0)
 	{
 		pthread_mutex_lock(&philo->fork);
 		microphone(philo->table, "has taken a fork", philo->id);
-		pthread_mutex_lock(&philo->table->philos[(id + 1) % nb_philo].fork);
+		pthread_mutex_lock(&philo->table->philos[(id + 1) % n_philo].fork);
 		microphone(philo->table, "has taken a fork", philo->id);
 	}
 	else
 	{
-		pthread_mutex_lock(&philo->table->philos[(id + 1) % nb_philo].fork);
+		pthread_mutex_lock(&philo->table->philos[(id + 1) % n_philo].fork);
 		microphone(philo->table, "has taken a fork", philo->id);
 		pthread_mutex_lock(&philo->fork);
 		microphone(philo->table, "has taken a fork", philo->id);
@@ -75,18 +75,18 @@ void	lock_forks(t_philo *philo, int id)
 
 void	unlock_forks(t_philo *philo, int id)
 {
-	int	nb_philo;
+	int	n_philo;
 
-	nb_philo = philo->table->n_philos;
+	n_philo = philo->table->n_philos;
 	if (id % 2 != 0)
 	{
-		pthread_mutex_unlock(&philo->table->philos[(id + 1) % nb_philo].fork);
+		pthread_mutex_unlock(&philo->table->philos[(id + 1) % n_philo].fork);
 		pthread_mutex_unlock(&philo->fork);
 	}
 	else
 	{
 		pthread_mutex_unlock(&philo->fork);
-		pthread_mutex_unlock(&philo->table->philos[(id + 1) % nb_philo].fork);
+		pthread_mutex_unlock(&philo->table->philos[(id + 1) % n_philo].fork);
 	}
 }
 

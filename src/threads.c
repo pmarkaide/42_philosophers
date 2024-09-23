@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:37:41 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/23 15:48:13 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:59:26 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static int	all_philos_full(t_table *table)
 
 static int	philo_is_dead(t_table *table)
 {
-	int	i;
+	int			i;
+	uint16_t	t_now;
 
 	i = 0;
 	while (i < table->n_philos)
@@ -48,10 +49,10 @@ static int	philo_is_dead(t_table *table)
 			pthread_mutex_unlock(&table->meal);
 			continue ;
 		}
-		if ((get_time()
-				- table->philos[i].t_last_meal) > (uint64_t)table->t_die)
+		t_now = get_time();
+		if ((t_now - table->philos[i].t_last_meal) > (uint64_t)table->t_die)
 		{
-			printf("%ld %d died\n", get_time() - table->t_start, i + 1);
+			printf("%ld %d died\n", t_now - table->t_start, i + 1);
 			table->kitchen_open = 0;
 			pthread_mutex_unlock(&table->meal);
 			return (1);
@@ -70,7 +71,7 @@ static void	*monitor(void *arg)
 	while (1)
 	{
 		ft_usleep(1);
-		if (!is_kitchen_open(table))
+		if (!kitchen_is_open(table))
 			break ;
 		if (philo_is_dead(table))
 			break ;

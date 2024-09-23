@@ -6,13 +6,13 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:00:59 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/20 15:44:24 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:56:22 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	is_kitchen_open(t_table *table)
+int	kitchen_is_open(t_table *table)
 {
 	int	open;
 
@@ -26,7 +26,7 @@ void	microphone(t_table *table, char *msg, int id)
 {
 	uint64_t	t_now;
 
-	if (!is_kitchen_open(table))
+	if (!kitchen_is_open(table))
 		return ;
 	pthread_mutex_lock(&table->microphone);
 	t_now = get_time();
@@ -47,14 +47,14 @@ static int	eval_args(int argc, char **argv)
 		{
 			if (argv[i][j] < '0' || argv[i][j] > '9')
 			{
-				printf("Error: Arguments must be positive integers\n");
+				printf("ERROR: arguments must be positive integers\n");
 				exit(1);
 			}
 			j++;
 		}
 		if (ft_atoi(argv[i]) == 0 || ft_atoi(argv[i]) == -1)
 		{
-			printf("Error: Integer is too big\n");
+			printf("ERROR: use a number between 1 and INT_MAX\n");
 			exit(1);
 		}
 		i++;

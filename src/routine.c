@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:30:10 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/23 15:39:01 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:53:23 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	*routine(void *arg)
 	table = philo->table;
 	while (1)
 	{
-		if (!is_kitchen_open(table))
+		if (!kitchen_is_open(table))
 			break ;
 		microphone(table, "is thinking", philo->id);
 		eat(philo, table->t_eat);
