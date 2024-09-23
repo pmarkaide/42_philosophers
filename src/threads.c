@@ -36,19 +36,20 @@ static int	all_philos_full(t_table *table)
 
 static int	philo_is_dead(t_table *table)
 {
-	int			i;
+	int	i;
 
 	i = 0;
 	while (i < table->n_philos)
 	{
 		pthread_mutex_lock(&table->meal);
-		if(table->philos[i].n_meals == table->n_meals)
+		if (table->philos[i].n_meals == table->n_meals)
 		{
 			i++;
 			pthread_mutex_unlock(&table->meal);
 			continue ;
 		}
-		if ((get_time() - table->philos[i].t_last_meal) > (uint64_t)table->t_die)
+		if ((get_time()
+				- table->philos[i].t_last_meal) > (uint64_t)table->t_die)
 		{
 			printf("%ld %d died\n", get_time() - table->t_start, i + 1);
 			table->kitchen_open = 0;
