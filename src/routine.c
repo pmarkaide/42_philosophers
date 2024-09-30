@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:30:10 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/30 15:37:08 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:43:06 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ static void	unlock_forks(t_philo *philo, int id)
 
 static int	eat(t_philo *philo, int t_eat)
 {
-	int	n_meals;
-
 	lock_forks(philo, philo->id);
 	pthread_mutex_lock(&philo->table->meal);
 	philo->t_last_meal = get_time();
@@ -56,12 +54,11 @@ static int	eat(t_philo *philo, int t_eat)
 	unlock_forks(philo, philo->id);
 	if (philo->table->n_meals > 0)
 	{
-		pthread_mutex_lock(&philo->table->meal);
-		n_meals = philo->n_meals;
-		pthread_mutex_unlock(&philo->table->meal);
-		if (n_meals >= philo->table->n_meals)
+		if (philo->n_meals >= philo->table->n_meals)
 		{
+			pthread_mutex_lock(&philo->table->meal);
 			philo->table->full_philos++;
+			pthread_mutex_unlock(&philo->table->meal);
 			return (1);
 		}
 	}
