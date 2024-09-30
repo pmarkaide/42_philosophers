@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:01:07 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/23 15:53:23 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 12:13:14 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ typedef struct s_table
 {
 	int					kitchen_open;
 	int					n_philos;
-	int					t_die;
-	int					t_eat;
-	int					t_sleep;
 	int					n_meals;
+	uint64_t			t_die;
+	uint64_t			t_eat;
+	uint64_t			t_sleep;
 	pthread_t			waiter;
 	pthread_mutex_t		microphone;
 	pthread_mutex_t		meal;
