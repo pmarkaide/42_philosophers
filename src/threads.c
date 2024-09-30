@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:37:41 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/23 15:59:26 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 11:50:05 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	all_philos_full(t_table *table)
 static int	philo_is_dead(t_table *table)
 {
 	int			i;
-	uint16_t	t_now;
+	uint64_t	t_now;
 
 	i = 0;
 	while (i < table->n_philos)
@@ -70,9 +70,6 @@ static void	*monitor(void *arg)
 	table = (t_table *)arg;
 	while (1)
 	{
-		ft_usleep(1);
-		if (!kitchen_is_open(table))
-			break ;
 		if (philo_is_dead(table))
 			break ;
 		if (all_philos_full(table))
