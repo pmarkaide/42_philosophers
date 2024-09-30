@@ -6,7 +6,7 @@
 #    By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 12:01:03 by pmarkaid          #+#    #+#              #
-#    Updated: 2024/09/19 10:52:12 by pmarkaid         ###   ########.fr        #
+#    Updated: 2024/09/30 13:42:01 by pmarkaid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRCS_FILES =                        \
 	main.c 							\
 	utils.c							\
 	routine.c						\
-	threads.c
+	monitor.c
 
 SRC_DIR = src/
 SRCS = $(addprefix $(SRC_DIR), $(SRCS_FILES))

@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:30:10 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/30 13:32:33 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:30:44 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,30 @@ void	ft_usleep(uint64_t sleep_time)
 		usleep(500);
 }
 
-static void	eat(t_philo *philo, int t_eat)
+static int	eat(t_philo *philo, int t_eat)
 {
+	int n_meals;
+
 	lock_forks(philo, philo->id);
 	pthread_mutex_lock(&philo->table->meal);
 	philo->t_last_meal = get_time();
 	philo->n_meals++;
-	if(philo->n_meals == philo->table->n_meals)
-		philo->table->full_philos++;
 	pthread_mutex_unlock(&philo->table->meal);
 	microphone(philo->table, "is eating", philo->id);
 	ft_usleep(t_eat);
 	unlock_forks(philo, philo->id);
+	if(philo->table->n_meals > 0)
+	{
+		pthread_mutex_lock(&philo->table->meal);
+		n_meals = philo->n_meals;
+		pthread_mutex_unlock(&philo->table->meal);
+		if (n_meals >= philo->table->n_meals)
+		{
+			philo->table->full_philos++;
+			return (1);
+		}
+	}
+	return(0);
 }
 
 static void	go_sleep(t_philo *philo, int t_sleep)
@@ -41,21 +53,10 @@ static void	go_sleep(t_philo *philo, int t_sleep)
 	ft_usleep(t_sleep);
 }
 
-void	handle_one_philo(t_table *table)
-{
-	pthread_create(&table->philos[0].th, NULL, routine,
-		(void *)&table->philos[0]);
-	pthread_mutex_lock(&table->philos[0].fork);
-	microphone(table, "has taken a fork", 0);
-	ft_usleep(table->t_die);
-	microphone(table, "died", 0);
-}
-
 void	*routine(void *arg)
 {
 	t_philo	*philo;
 	t_table	*table;
-	int		n_meals;
 
 	philo = (t_philo *)arg;
 	table = philo->table;
@@ -66,15 +67,8 @@ void	*routine(void *arg)
 		microphone(table, "is thinking", philo->id);
 		if (philo->id % 2 != 0 && philo->n_meals == 0)
 			ft_usleep(table->t_eat / 2);
-		eat(philo, table->t_eat);
-		if (table->n_meals > 0)
-		{
-			pthread_mutex_lock(&table->meal);
-			n_meals = philo->n_meals;
-			pthread_mutex_unlock(&table->meal);
-			if (n_meals >= table->n_meals)
-				break ;
-		}
+		if(eat(philo, table->t_eat))
+			break;
 		go_sleep(philo, table->t_sleep);
 	}
 	return (NULL);

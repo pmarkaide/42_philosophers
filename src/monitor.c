@@ -1,22 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   threads.c                                          :+:      :+:    :+:   */
+/*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:37:41 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/30 13:37:21 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:21:09 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	handle_one_philo(t_table *table)
+{
+	pthread_create(&table->philos[0].th, NULL, routine,
+		(void *)&table->philos[0]);
+	pthread_mutex_lock(&table->philos[0].fork);
+	microphone(table, "has taken a fork", 0);
+	ft_usleep(table->t_die);
+	microphone(table, "died", 0);
+}
 
 static int	is_philo_dead(t_table *table, t_philo *philo)
 {
 	int64_t	t_last_meal;
 
 	pthread_mutex_lock(&table->meal);
+	if (philo->table->n_meals > 0 && philo->n_meals >= philo->table->n_meals)
+	{
+		pthread_mutex_unlock(&table->meal);
+		return (0);
+	}
 	t_last_meal = philo->t_last_meal;
 	pthread_mutex_unlock(&table->meal);
 	if (get_time() - t_last_meal >= table->t_die)
@@ -52,10 +67,10 @@ static void	*monitor(void *arg)
 	table = (t_table *)arg;
 	while (1)
 	{
-		ft_usleep(1);
+		ft_usleep(5);
 		if (any_philo_died(table))
 			break ;
-		if(table->n_meals > 0)
+		if (table->n_meals > 0)
 		{
 			pthread_mutex_lock(&table->meal);
 			full_philos = table->full_philos;
@@ -72,7 +87,7 @@ static void	*monitor(void *arg)
 	return (NULL);
 }
 
-static void	create_threads(t_table *table)
+void	handle_routine(t_table *table)
 {
 	int	i;
 
@@ -84,13 +99,6 @@ static void	create_threads(t_table *table)
 			(void *)&table->philos[i]);
 		i++;
 	}
-}
-
-void	handle_routine(t_table *table)
-{
-	int	i;
-
-	create_threads(table);
 	i = 0;
 	while (i < table->n_philos)
 	{
