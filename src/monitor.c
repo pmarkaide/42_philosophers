@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:37:41 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/30 14:21:09 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:23:04 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ static int	any_philo_died(t_table *table)
 			pthread_mutex_lock(&table->meal);
 			table->kitchen_open = 0;
 			pthread_mutex_unlock(&table->meal);
+			pthread_mutex_lock(&table->microphone);
 			printf("%ld %d died\n", get_time() - table->t_start, i + 1);
+			pthread_mutex_unlock(&table->microphone);
 			return (1);
 		}
 		i++;

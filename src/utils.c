@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:19:24 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/30 15:42:14 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:24:33 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_usleep(uint64_t sleep_time)
 
 void	microphone(t_table *table, char *msg, int id)
 {
-	uint64_t	t_now;
+	uint64_t	t_stamp;
 	int			open;
 
 	pthread_mutex_lock(&table->meal);
@@ -39,8 +39,8 @@ void	microphone(t_table *table, char *msg, int id)
 	pthread_mutex_unlock(&table->meal);
 	if (!open)
 		return ;
+	t_stamp = get_time() - table->t_start;
 	pthread_mutex_lock(&table->microphone);
-	t_now = get_time();
-	printf("%ld %d %s\n", t_now - table->t_start, id + 1, msg);
+	printf("%ld %d %s\n", t_stamp, id + 1, msg);
 	pthread_mutex_unlock(&table->microphone);
 }
