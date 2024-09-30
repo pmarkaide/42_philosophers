@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:19:24 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/23 15:54:37 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:21:14 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	lock_forks(t_philo *philo, int id)
 	int	n_philo;
 
 	n_philo = philo->table->n_philos;
-	if (id % 2 != 0)
+	if (id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->fork);
 		microphone(philo->table, "has taken a fork", philo->id);
@@ -78,7 +78,7 @@ void	unlock_forks(t_philo *philo, int id)
 	int	n_philo;
 
 	n_philo = philo->table->n_philos;
-	if (id % 2 != 0)
+	if (id % 2 == 0)
 	{
 		pthread_mutex_unlock(&philo->table->philos[(id + 1) % n_philo].fork);
 		pthread_mutex_unlock(&philo->fork);
