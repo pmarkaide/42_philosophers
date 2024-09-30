@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:30:10 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/30 14:37:29 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:37:08 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@ static void	lock_forks(t_philo *philo, int id)
 	int	n_philo;
 
 	n_philo = philo->table->n_philos;
-	if (id % 2 == 0)
+	if (philo->n_meals == 0 && id % 2 != 0)
 	{
-		pthread_mutex_lock(&philo->fork);
-		microphone(philo->table, "has taken a fork", philo->id);
 		pthread_mutex_lock(&philo->table->philos[(id + 1) % n_philo].fork);
+		microphone(philo->table, "has taken a fork", philo->id);
+		pthread_mutex_lock(&philo->fork);
 		microphone(philo->table, "has taken a fork", philo->id);
 	}
 	else
 	{
-		pthread_mutex_lock(&philo->table->philos[(id + 1) % n_philo].fork);
-		microphone(philo->table, "has taken a fork", philo->id);
 		pthread_mutex_lock(&philo->fork);
+		microphone(philo->table, "has taken a fork", philo->id);
+		pthread_mutex_lock(&philo->table->philos[(id + 1) % n_philo].fork);
 		microphone(philo->table, "has taken a fork", philo->id);
 	}
 }
@@ -38,16 +38,8 @@ static void	unlock_forks(t_philo *philo, int id)
 	int	n_philo;
 
 	n_philo = philo->table->n_philos;
-	if (id % 2 == 0)
-	{
-		pthread_mutex_unlock(&philo->table->philos[(id + 1) % n_philo].fork);
-		pthread_mutex_unlock(&philo->fork);
-	}
-	else
-	{
-		pthread_mutex_unlock(&philo->fork);
-		pthread_mutex_unlock(&philo->table->philos[(id + 1) % n_philo].fork);
-	}
+	pthread_mutex_unlock(&philo->fork);
+	pthread_mutex_unlock(&philo->table->philos[(id + 1) % n_philo].fork);
 }
 
 static int	eat(t_philo *philo, int t_eat)
@@ -86,13 +78,17 @@ void	*routine(void *arg)
 {
 	t_philo	*philo;
 	t_table	*table;
+	int		open;
 
 	philo = (t_philo *)arg;
 	table = philo->table;
 	while (1)
 	{
-		if (!kitchen_is_open(table))
-			break ;
+		pthread_mutex_lock(&table->meal);
+		open = table->kitchen_open;
+		pthread_mutex_unlock(&table->meal);
+		if (!open)
+			return (NULL);
 		microphone(table, "is thinking", philo->id);
 		if (philo->id % 2 == 0 && philo->n_meals == 0)
 			ft_usleep(table->t_eat / 2);

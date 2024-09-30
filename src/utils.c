@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:19:24 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/30 14:38:19 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:42:14 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,42 +29,18 @@ void	ft_usleep(uint64_t sleep_time)
 		usleep(500);
 }
 
-void	clean_data(t_table *table)
+void	microphone(t_table *table, char *msg, int id)
 {
-	int	i;
+	uint64_t	t_now;
+	int			open;
 
-	i = 0;
-	while (i < table->n_philos)
-	{
-		pthread_mutex_destroy(&table->philos[i].fork);
-		i++;
-	}
-	free(table->philos);
-	free(table);
-}
-
-int	ft_atoi(const char *str)
-{
-	int			i;
-	int long	nb;
-	int			neg;
-
-	i = 0;
-	nb = 0;
-	neg = 1;
-	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
-		i++;
-	if (str[i] == '-')
-		neg = -1;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	while (str[i] && str[i] >= '0' && str[i] <= '9')
-	{
-		nb = 10 * nb + str[i++] - '0';
-		if (nb < 0 && neg < 0)
-			return (0);
-		else if (nb < 0 && neg > 0)
-			return (-1);
-	}
-	return (nb * neg);
+	pthread_mutex_lock(&table->meal);
+	open = table->kitchen_open;
+	pthread_mutex_unlock(&table->meal);
+	if (!open)
+		return ;
+	pthread_mutex_lock(&table->microphone);
+	t_now = get_time();
+	printf("%ld %d %s\n", t_now - table->t_start, id + 1, msg);
+	pthread_mutex_unlock(&table->microphone);
 }
