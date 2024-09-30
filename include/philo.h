@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:01:07 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/30 12:13:14 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:25:56 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_table
 	int					kitchen_open;
 	int					n_philos;
 	int					n_meals;
+	int					full_philos;
 	uint64_t			t_die;
 	uint64_t			t_eat;
 	uint64_t			t_sleep;

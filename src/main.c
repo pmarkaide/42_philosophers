@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:00:59 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/23 15:56:22 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:28:00 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,11 @@ t_table	*init_table(char **argv)
 	table = (t_table *)malloc(sizeof(t_table));
 	table->kitchen_open = 1;
 	table->n_philos = ft_atoi(argv[1]);
+	table->n_meals = ft_atoi(argv[5]);
+	table->full_philos = 0;
 	table->t_die = ft_atoi(argv[2]);
 	table->t_eat = ft_atoi(argv[3]);
 	table->t_sleep = ft_atoi(argv[4]);
-	table->n_meals = ft_atoi(argv[5]);
 	table->philos = (t_philo *)malloc(sizeof(t_philo) * table->n_philos);
 	table->t_start = get_time();
 	while (i < table->n_philos)
