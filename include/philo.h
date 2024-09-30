@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:01:07 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/30 14:37:52 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:39:04 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,6 @@ typedef struct t_philo
 	pthread_t			th;
 	pthread_mutex_t		fork;
 }						t_philo;
-
-typedef enum e_status
-{
-	EAT,
-	SLEEP,
-	THINK,
-	DEAD
-}						t_status;
-
 typedef struct s_table
 {
 	int					kitchen_open;
@@ -55,15 +46,14 @@ typedef struct s_table
 	uint64_t			t_start;
 }						t_table;
 
-/* init */
 uint64_t				get_time(void);
 t_table					*init_table(char **argv);
+int						eval_args(int argc, char **argv);
+void					clean_data(t_table *table);
 int						ft_atoi(const char *str);
 void					*routine(void *arg);
 void					handle_routine(t_table *table);
-void					clean_data(t_table *table);
 void					microphone(t_table *table, char *msg, int id);
-int						kitchen_is_open(t_table *table);
 void					handle_one_philo(t_table *table);
 void					ft_usleep(uint64_t sleep_time);
 
