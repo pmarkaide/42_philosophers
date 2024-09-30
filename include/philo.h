@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:01:07 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/30 13:25:56 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:37:52 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ t_table					*init_table(char **argv);
 int						ft_atoi(const char *str);
 void					*routine(void *arg);
 void					handle_routine(t_table *table);
-void					lock_forks(t_philo *philo, int id);
-void					unlock_forks(t_philo *philo, int id);
 void					clean_data(t_table *table);
 void					microphone(t_table *table, char *msg, int id);
 int						kitchen_is_open(t_table *table);
