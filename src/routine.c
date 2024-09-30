@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:30:10 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/23 15:53:23 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 12:35:17 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	*routine(void *arg)
 {
 	t_philo	*philo;
 	t_table	*table;
+	int n_meals;
 
 	philo = (t_philo *)arg;
 	table = philo->table;
@@ -62,13 +63,14 @@ void	*routine(void *arg)
 			break ;
 		microphone(table, "is thinking", philo->id);
 		eat(philo, table->t_eat);
-		pthread_mutex_lock(&table->meal);
-		if (table->n_meals > 0 && philo->n_meals >= table->n_meals)
+		if (table->n_meals > 0)
 		{
+			pthread_mutex_lock(&table->meal);
+			n_meals = philo->n_meals;
 			pthread_mutex_unlock(&table->meal);
-			break ;
+			if(n_meals >= table->n_meals)
+				break ;
 		}
-		pthread_mutex_unlock(&table->meal);
 		go_sleep(philo, table->t_sleep);
 	}
 	return (NULL);

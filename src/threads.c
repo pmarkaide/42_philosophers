@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:37:41 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/30 12:18:59 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 12:36:11 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ static int	all_philos_full(t_table *table)
 
 static int	is_philo_dead(t_table *table, t_philo *philo)
 {
+	int64_t t_meal;
+
 	pthread_mutex_lock(&table->meal);
-	if (get_time() - philo->t_last_meal >= table->t_die)
-	{
-		pthread_mutex_unlock(&table->meal);
-		return (1);
-	}
+	t_meal = philo->t_last_meal;
 	pthread_mutex_unlock(&table->meal);
+	if (get_time() - t_meal >= table->t_die)
+		return (1);
 	return (0);
 }
 
