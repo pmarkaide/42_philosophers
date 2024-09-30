@@ -6,11 +6,28 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:19:24 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/23 15:54:37 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:38:19 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+uint64_t	get_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return ((uint64_t)time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
+void	ft_usleep(uint64_t sleep_time)
+{
+	uint64_t	start;
+
+	start = get_time();
+	while ((get_time() - start) < sleep_time)
+		usleep(500);
+}
 
 void	clean_data(t_table *table)
 {
@@ -50,50 +67,4 @@ int	ft_atoi(const char *str)
 			return (-1);
 	}
 	return (nb * neg);
-}
-
-void	lock_forks(t_philo *philo, int id)
-{
-	int	n_philo;
-
-	n_philo = philo->table->n_philos;
-	if (id % 2 != 0)
-	{
-		pthread_mutex_lock(&philo->fork);
-		microphone(philo->table, "has taken a fork", philo->id);
-		pthread_mutex_lock(&philo->table->philos[(id + 1) % n_philo].fork);
-		microphone(philo->table, "has taken a fork", philo->id);
-	}
-	else
-	{
-		pthread_mutex_lock(&philo->table->philos[(id + 1) % n_philo].fork);
-		microphone(philo->table, "has taken a fork", philo->id);
-		pthread_mutex_lock(&philo->fork);
-		microphone(philo->table, "has taken a fork", philo->id);
-	}
-}
-
-void	unlock_forks(t_philo *philo, int id)
-{
-	int	n_philo;
-
-	n_philo = philo->table->n_philos;
-	if (id % 2 != 0)
-	{
-		pthread_mutex_unlock(&philo->table->philos[(id + 1) % n_philo].fork);
-		pthread_mutex_unlock(&philo->fork);
-	}
-	else
-	{
-		pthread_mutex_unlock(&philo->fork);
-		pthread_mutex_unlock(&philo->table->philos[(id + 1) % n_philo].fork);
-	}
-}
-
-uint64_t	get_time(void)
-{
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return ((uint64_t)time.tv_sec * 1000 + time.tv_usec / 1000);
 }

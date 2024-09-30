@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:01:07 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/23 15:53:23 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:37:52 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,11 @@ typedef struct s_table
 {
 	int					kitchen_open;
 	int					n_philos;
-	int					t_die;
-	int					t_eat;
-	int					t_sleep;
 	int					n_meals;
+	int					full_philos;
+	uint64_t			t_die;
+	uint64_t			t_eat;
+	uint64_t			t_sleep;
 	pthread_t			waiter;
 	pthread_mutex_t		microphone;
 	pthread_mutex_t		meal;
@@ -60,8 +61,6 @@ t_table					*init_table(char **argv);
 int						ft_atoi(const char *str);
 void					*routine(void *arg);
 void					handle_routine(t_table *table);
-void					lock_forks(t_philo *philo, int id);
-void					unlock_forks(t_philo *philo, int id);
 void					clean_data(t_table *table);
 void					microphone(t_table *table, char *msg, int id);
 int						kitchen_is_open(t_table *table);
