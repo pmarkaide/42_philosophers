@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:00:59 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/30 15:38:14 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:08:11 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int	main(int argc, char **argv)
 {
 	t_table	*table;
 
-	eval_args(argc, argv);
 	if (argc != 5 && argc != 6)
 	{
-		printf("Usage:\n");
-		printf("\t./philo n_philo t_die t_eat t_sleep [n_meals]\n");
+		write(2, "Usage:\n", 7);
+		write(2, "\t./philo n_philo t_die t_eat t_sleep [n_meals]\n", 47);
 		return (1);
 	}
+	eval_args(argc, argv);
 	if (argc == 5)
 		argv[5] = "0";
 	table = init_table(argv);

@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:38:02 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/30 15:40:58 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:09:35 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,14 @@ int	eval_args(int argc, char **argv)
 		{
 			if (argv[i][j] < '0' || argv[i][j] > '9')
 			{
-				printf("ERROR: arguments must be positive integers\n");
+				write(2, "ERROR: arguments must be positive integers\n", 43);
 				exit(1);
 			}
 			j++;
 		}
 		if (ft_atoi(argv[i]) == 0 || ft_atoi(argv[i]) == -1)
 		{
-			printf("ERROR: use a number between 1 and INT_MAX\n");
+			write(2, "ERROR: use a number between 1 and INT_MAX\n", 42);
 			exit(1);
 		}
 		i++;
