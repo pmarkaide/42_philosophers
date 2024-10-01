@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:38:02 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/01 15:09:35 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:16:29 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ t_table	*init_table(char **argv)
 	t_table	*table;
 
 	table = (t_table *)malloc(sizeof(t_table));
+	if (!table)
+		return (NULL);
 	table->kitchen_open = 1;
 	table->n_philos = ft_atoi(argv[1]);
 	table->n_meals = ft_atoi(argv[5]);
@@ -41,6 +43,8 @@ t_table	*init_table(char **argv)
 	table->t_eat = ft_atoi(argv[3]);
 	table->t_sleep = ft_atoi(argv[4]);
 	table->philos = (t_philo *)malloc(sizeof(t_philo) * table->n_philos);
+	if (!table->philos)
+		return (NULL);
 	table->t_start = get_time();
 	init_philos(table);
 	pthread_mutex_init(&table->microphone, NULL);
@@ -52,14 +56,22 @@ void	clean_data(t_table *table)
 {
 	int	i;
 
-	i = 0;
-	while (i < table->n_philos)
+	if (table)
 	{
-		pthread_mutex_destroy(&table->philos[i].fork);
-		i++;
+		if (table->philos)
+		{
+			i = 0;
+			while (i < table->n_philos)
+			{
+				pthread_mutex_destroy(&table->philos[i].fork);
+				i++;
+			}
+			free(table->philos);
+		}
+		pthread_mutex_destroy(&table->microphone);
+		pthread_mutex_destroy(&table->meal);
+		free(table);
 	}
-	free(table->philos);
-	free(table);
 }
 
 int	eval_args(int argc, char **argv)
