@@ -6,21 +6,11 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:37:41 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/30 16:23:04 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:19:48 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	handle_one_philo(t_table *table)
-{
-	pthread_create(&table->philos[0].th, NULL, routine,
-		(void *)&table->philos[0]);
-	pthread_mutex_lock(&table->philos[0].fork);
-	microphone(table, "has taken a fork", 0);
-	ft_usleep(table->t_die);
-	microphone(table, "died", 0);
-}
 
 static int	is_philo_dead(t_table *table, t_philo *philo)
 {
