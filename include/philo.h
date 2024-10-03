@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:01:07 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/30 15:39:04 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:01:56 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <pthread.h>  // pthread functions
 # include <stdint.h>   // uint64_t
 # include <stdio.h>    // printf
-# include <stdlib.h>   // memset, malloc, free
+# include <stdlib.h>   // malloc, free
 # include <sys/time.h> // gettimeofday
 # include <unistd.h>   // write, usleep
 
@@ -52,9 +52,9 @@ int						eval_args(int argc, char **argv);
 void					clean_data(t_table *table);
 int						ft_atoi(const char *str);
 void					*routine(void *arg);
-void					handle_routine(t_table *table);
+int						handle_routine(t_table *table);
 void					microphone(t_table *table, char *msg, int id);
-void					handle_one_philo(t_table *table);
+int						handle_one_philo(t_table *table);
 void					ft_usleep(uint64_t sleep_time);
 
 #endif /* PHILO_H */

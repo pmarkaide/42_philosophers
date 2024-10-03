@@ -6,13 +6,13 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:38:02 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/09/30 15:40:58 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:27:32 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	init_philos(t_table *table)
+static int	init_philos(t_table *table)
 {
 	int	i;
 
@@ -23,9 +23,11 @@ static void	init_philos(t_table *table)
 		table->philos[i].table = table;
 		table->philos[i].n_meals = 0;
 		table->philos[i].t_last_meal = get_time();
-		pthread_mutex_init(&table->philos[i].fork, NULL);
+		if (pthread_mutex_init(&table->philos[i].fork, NULL) != 0)
+			return (1);
 		i++;
 	}
+	return (0);
 }
 
 t_table	*init_table(char **argv)
@@ -33,6 +35,8 @@ t_table	*init_table(char **argv)
 	t_table	*table;
 
 	table = (t_table *)malloc(sizeof(t_table));
+	if (!table)
+		return (NULL);
 	table->kitchen_open = 1;
 	table->n_philos = ft_atoi(argv[1]);
 	table->n_meals = ft_atoi(argv[5]);
@@ -40,11 +44,16 @@ t_table	*init_table(char **argv)
 	table->t_die = ft_atoi(argv[2]);
 	table->t_eat = ft_atoi(argv[3]);
 	table->t_sleep = ft_atoi(argv[4]);
-	table->philos = (t_philo *)malloc(sizeof(t_philo) * table->n_philos);
 	table->t_start = get_time();
-	init_philos(table);
-	pthread_mutex_init(&table->microphone, NULL);
-	pthread_mutex_init(&table->meal, NULL);
+	table->philos = (t_philo *)malloc(sizeof(t_philo) * table->n_philos);
+	if (!table->philos)
+		return (NULL);
+	if (init_philos(table) != 0)
+		return (NULL);
+	if (pthread_mutex_init(&table->microphone, NULL) != 0)
+		return (NULL);
+	if (pthread_mutex_init(&table->meal, NULL) != 0)
+		return (NULL);
 	return (table);
 }
 
@@ -52,14 +61,22 @@ void	clean_data(t_table *table)
 {
 	int	i;
 
-	i = 0;
-	while (i < table->n_philos)
+	if (table)
 	{
-		pthread_mutex_destroy(&table->philos[i].fork);
-		i++;
+		if (table->philos)
+		{
+			i = 0;
+			while (i < table->n_philos)
+			{
+				pthread_mutex_destroy(&table->philos[i].fork);
+				i++;
+			}
+			free(table->philos);
+		}
+		pthread_mutex_destroy(&table->microphone);
+		pthread_mutex_destroy(&table->meal);
+		free(table);
 	}
-	free(table->philos);
-	free(table);
 }
 
 int	eval_args(int argc, char **argv)
@@ -75,14 +92,14 @@ int	eval_args(int argc, char **argv)
 		{
 			if (argv[i][j] < '0' || argv[i][j] > '9')
 			{
-				printf("ERROR: arguments must be positive integers\n");
+				write(2, "ERROR: arguments must be positive integers\n", 43);
 				exit(1);
 			}
 			j++;
 		}
 		if (ft_atoi(argv[i]) == 0 || ft_atoi(argv[i]) == -1)
 		{
-			printf("ERROR: use a number between 1 and INT_MAX\n");
+			write(2, "ERROR: use a number between 1 and INT_MAX\n", 42);
 			exit(1);
 		}
 		i++;
