@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:37:41 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/03 16:07:15 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:24:14 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ int	handle_routine(t_table *table)
 {
 	int	i;
 
+	if (table->n_philos == 1)
+		return (handle_one_philo(table));
 	i = 0;
 	if (create_threads(table))
 		return (1);

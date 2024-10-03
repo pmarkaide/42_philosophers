@@ -6,13 +6,13 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:38:02 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/03 16:16:20 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:27:32 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	*init_philos(t_table *table)
+static int	init_philos(t_table *table)
 {
 	int	i;
 
@@ -24,9 +24,10 @@ static void	*init_philos(t_table *table)
 		table->philos[i].n_meals = 0;
 		table->philos[i].t_last_meal = get_time();
 		if (pthread_mutex_init(&table->philos[i].fork, NULL) != 0)
-			return (NULL);
+			return (1);
 		i++;
 	}
+	return (0);
 }
 
 t_table	*init_table(char **argv)
@@ -47,7 +48,7 @@ t_table	*init_table(char **argv)
 	table->philos = (t_philo *)malloc(sizeof(t_philo) * table->n_philos);
 	if (!table->philos)
 		return (NULL);
-	if (!init_philos(table))
+	if (init_philos(table) != 0)
 		return (NULL);
 	if (pthread_mutex_init(&table->microphone, NULL) != 0)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:00:59 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/03 16:02:09 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:23:50 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ int	main(int argc, char **argv)
 		write(2, "ERROR: malloc failed\n", 21);
 		return (1);
 	}
-	if (table->n_philos == 1)
-		status = handle_one_philo(table);
-	else
-		status = handle_routine(table);
+	status = handle_routine(table);
 	clean_data(table);
 	return (status);
 }
