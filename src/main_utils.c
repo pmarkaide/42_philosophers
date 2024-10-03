@@ -6,13 +6,13 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:38:02 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/01 15:16:29 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:16:20 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	init_philos(t_table *table)
+static void	*init_philos(t_table *table)
 {
 	int	i;
 
@@ -23,7 +23,8 @@ static void	init_philos(t_table *table)
 		table->philos[i].table = table;
 		table->philos[i].n_meals = 0;
 		table->philos[i].t_last_meal = get_time();
-		pthread_mutex_init(&table->philos[i].fork, NULL);
+		if (pthread_mutex_init(&table->philos[i].fork, NULL) != 0)
+			return (NULL);
 		i++;
 	}
 }
@@ -42,13 +43,16 @@ t_table	*init_table(char **argv)
 	table->t_die = ft_atoi(argv[2]);
 	table->t_eat = ft_atoi(argv[3]);
 	table->t_sleep = ft_atoi(argv[4]);
+	table->t_start = get_time();
 	table->philos = (t_philo *)malloc(sizeof(t_philo) * table->n_philos);
 	if (!table->philos)
 		return (NULL);
-	table->t_start = get_time();
-	init_philos(table);
-	pthread_mutex_init(&table->microphone, NULL);
-	pthread_mutex_init(&table->meal, NULL);
+	if (!init_philos(table))
+		return (NULL);
+	if (pthread_mutex_init(&table->microphone, NULL) != 0)
+		return (NULL);
+	if (pthread_mutex_init(&table->meal, NULL) != 0)
+		return (NULL);
 	return (table);
 }
 
