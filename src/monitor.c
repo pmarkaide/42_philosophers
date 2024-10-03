@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:37:41 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/03 15:19:48 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:04:51 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,23 +79,47 @@ static void	*monitor(void *arg)
 	return (NULL);
 }
 
-void	handle_routine(t_table *table)
+int	create_threads(t_table *table)
 {
 	int	i;
 
 	i = 0;
-	pthread_create(&table->waiter, NULL, monitor, (void *)table);
+	if (pthread_create(&table->waiter, NULL, monitor, (void *)table) != 0)
+	{
+		write(2, "Failed to create waiter thread\n", 31);
+		return (1);
+	}
 	while (i < table->n_philos)
 	{
-		pthread_create(&table->philos[i].th, NULL, routine,
-			(void *)&table->philos[i]);
+		if (pthread_create(&table->philos[i].th, NULL, routine,
+				(void *)&table->philos[i]) != 0)
+		{
+			write(2, "Failed to create philosopher thread\n", 36);
+			return (1);
+		}
 		i++;
 	}
+	return (0);
+}
+
+int	handle_routine(t_table *table)
+{
+	int	i;
+
 	i = 0;
 	while (i < table->n_philos)
 	{
-		pthread_join(table->philos[i].th, NULL);
+		if (pthread_join(table->philos[i].th, NULL) != 0)
+		{
+			write(2, "Failed to join philosopher thread\n", 35);
+			return (1);
+		}
 		i++;
 	}
-	pthread_join(table->waiter, NULL);
+	if (pthread_join(table->waiter, NULL) != 0)
+	{
+		write(2, "Failed to join waiter thread\n", 30);
+		return (1);
+	}
+	return (0);
 }

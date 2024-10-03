@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:00:59 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/01 15:17:12 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:02:09 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(int argc, char **argv)
 {
 	t_table	*table;
+	int		status;
 
 	if (argc != 5 && argc != 6)
 	{
@@ -33,9 +34,9 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	if (table->n_philos == 1)
-		handle_one_philo(table);
+		status = handle_one_philo(table);
 	else
-		handle_routine(table);
+		status = handle_routine(table);
 	clean_data(table);
-	return (0);
+	return (status);
 }
