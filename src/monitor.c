@@ -6,11 +6,44 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:37:41 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/03 16:24:14 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:38:50 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static void	*one_philo(void *arg)
+{
+	t_philo	*philo;
+	t_table	*table;
+
+	philo = (t_philo *)arg;
+	table = philo->table;
+	microphone(table, "is thinking", philo->id);
+	pthread_mutex_lock(&philo->fork);
+	microphone(table, "has taken a fork", philo->id);
+	ft_usleep(table->t_die);
+	microphone(table, "died", philo->id);
+	return (NULL);
+}
+
+int	handle_one_philo(t_table *table)
+{
+	pthread_t	philo_thread;
+
+	if (pthread_create(&philo_thread, NULL, one_philo,
+			(void *)&table->philos[0]) != 0)
+	{
+		write(2, "Failed to create one philo thread\n", 34);
+		return (1);
+	}
+	if (pthread_join(philo_thread, NULL) != 0)
+	{
+		write(2, "Failed to join one philo thread\n", 32);
+		return (1);
+	}
+	return (0);
+}
 
 static int	is_philo_dead(t_table *table, t_philo *philo)
 {
@@ -51,7 +84,7 @@ static int	any_philo_died(t_table *table)
 	return (0);
 }
 
-static void	*monitor(void *arg)
+void	*monitor(void *arg)
 {
 	t_table	*table;
 	int		full_philos;
@@ -77,53 +110,4 @@ static void	*monitor(void *arg)
 		}
 	}
 	return (NULL);
-}
-
-static int	create_threads(t_table *table)
-{
-	int	i;
-
-	i = 0;
-	if (pthread_create(&table->waiter, NULL, monitor, (void *)table) != 0)
-	{
-		write(2, "Failed to create waiter thread\n", 31);
-		return (1);
-	}
-	while (i < table->n_philos)
-	{
-		if (pthread_create(&table->philos[i].th, NULL, routine,
-				(void *)&table->philos[i]) != 0)
-		{
-			write(2, "Failed to create philosopher thread\n", 36);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	handle_routine(t_table *table)
-{
-	int	i;
-
-	if (table->n_philos == 1)
-		return (handle_one_philo(table));
-	i = 0;
-	if (create_threads(table))
-		return (1);
-	while (i < table->n_philos)
-	{
-		if (pthread_join(table->philos[i].th, NULL) != 0)
-		{
-			write(2, "Failed to join philosopher thread\n", 35);
-			return (1);
-		}
-		i++;
-	}
-	if (pthread_join(table->waiter, NULL) != 0)
-	{
-		write(2, "Failed to join waiter thread\n", 30);
-		return (1);
-	}
-	return (0);
 }

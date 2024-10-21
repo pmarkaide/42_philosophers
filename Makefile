@@ -6,15 +6,15 @@
 #    By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/16 12:01:03 by pmarkaid          #+#    #+#              #
-#    Updated: 2024/09/30 15:39:28 by pmarkaid         ###   ########.fr        #
+#    Updated: 2024/10/21 15:39:43 by pmarkaid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRCS_FILES =                        \
-	main.c 							\
-	main_utils.c 					\
+SRCS_FILES =						\
+	main.c							\
+	init.c							\
 	utils.c							\
 	routine.c						\
 	monitor.c
