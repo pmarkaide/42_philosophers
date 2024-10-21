@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:00:59 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/21 15:35:08 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:46:16 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,6 @@ static int	eval_args(int argc, char **argv)
 	return (0);
 }
 
-static int	handle_routine(t_table *table)
-{
-	int	n_threads;
-	int	err;
-
-	err = 0;
-	if (table->n_philos == 1)
-		return (handle_one_philo(table));
-	n_threads = create_threads(table);
-	if (n_threads < 0)
-		return (1);
-	err = join_threads(table);
-	return (err);
-}
-
 static void	clean_data(t_table *table)
 {
 	int	i;
@@ -74,6 +59,21 @@ static void	clean_data(t_table *table)
 	pthread_mutex_destroy(&table->microphone);
 	pthread_mutex_destroy(&table->meal);
 	free(table);
+}
+
+static int	handle_routine(t_table *table)
+{
+	int	n_threads;
+	int	err;
+
+	err = 0;
+	if (table->n_philos == 1)
+		return (handle_one_philo(table));
+	n_threads = create_threads(table);
+	if (n_threads < 0)
+		return (1);
+	err = join_threads(table);
+	return (err);
 }
 
 int	main(int argc, char **argv)

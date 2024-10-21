@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:37:41 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/21 15:28:17 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:38:50 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	any_philo_died(t_table *table)
 	return (0);
 }
 
-static void	*monitor(void *arg)
+void	*monitor(void *arg)
 {
 	t_table	*table;
 	int		full_philos;
