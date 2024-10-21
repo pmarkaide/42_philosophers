@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:38:02 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/21 13:44:22 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:52:29 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ t_table	*init_table(int argc, char **argv)
 	return (table);
 }
 
-char	*clean_data(t_table *table)
+void	clean_data(t_table *table)
 {
 	int	i;
 
 	if (!table)
-		return (NULL);
+		return ;
 	if (table->philos)
 	{
 		i = 0;
@@ -95,35 +95,6 @@ char	*clean_data(t_table *table)
 	pthread_mutex_destroy(&table->microphone);
 	pthread_mutex_destroy(&table->meal);
 	free(table);
-	return (NULL);
-}
-
-int	eval_args(int argc, char **argv)
-{
-	int	i;
-	int	j;
-
-	i = 1;
-	while (i < argc)
-	{
-		j = 0;
-		while (argv[i][j])
-		{
-			if (argv[i][j] < '0' || argv[i][j] > '9')
-			{
-				write(2, "ERROR: arguments must be positive integers\n", 43);
-				exit(1);
-			}
-			j++;
-		}
-		if (ft_atoi(argv[i]) == 0 || ft_atoi(argv[i]) == -1)
-		{
-			write(2, "ERROR: use a number between 1 and INT_MAX\n", 42);
-			exit(1);
-		}
-		i++;
-	}
-	return (0);
 }
 
 int	ft_atoi(const char *str)
