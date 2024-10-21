@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_utils.c                                       :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 15:38:02 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/21 13:52:29 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:34:59 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,49 +76,28 @@ t_table	*init_table(int argc, char **argv)
 	return (table);
 }
 
-void	clean_data(t_table *table)
+int	create_threads(t_table *table)
 {
 	int	i;
 
-	if (!table)
-		return ;
-	if (table->philos)
-	{
-		i = 0;
-		while (i < table->n_philos)
-		{
-			pthread_mutex_destroy(&table->philos[i].fork);
-			i++;
-		}
-		free(table->philos);
-	}
-	pthread_mutex_destroy(&table->microphone);
-	pthread_mutex_destroy(&table->meal);
-	free(table);
-}
-
-int	ft_atoi(const char *str)
-{
-	int			i;
-	int long	nb;
-	int			neg;
-
 	i = 0;
-	nb = 0;
-	neg = 1;
-	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
-		i++;
-	if (str[i] == '-')
-		neg = -1;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	while (str[i] && str[i] >= '0' && str[i] <= '9')
+	if (pthread_create(&table->waiter, NULL, monitor, (void *)table) != 0)
 	{
-		nb = 10 * nb + str[i++] - '0';
-		if (nb < 0 && neg < 0)
-			return (0);
-		else if (nb < 0 && neg > 0)
-			return (-1);
+		write(2, "Failed to create waiter thread\n", 31);
+		return (-1);
 	}
-	return (nb * neg);
+	while (i < table->n_philos)
+	{
+		if (pthread_create(&table->philos[i].th, NULL, routine,
+				(void *)&table->philos[i]) != 0)
+		{
+			write(2, "Failed to create philosopher thread\n", 36);
+			while (--i >= 0)
+				pthread_detach(table->philos[i].th);
+			pthread_detach(table->waiter);
+			return (i);
+		}
+		i++;
+	}
+	return (i);
 }
