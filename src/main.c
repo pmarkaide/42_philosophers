@@ -6,7 +6,7 @@
 /*   By: pmarkaid <pmarkaid@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 12:00:59 by pmarkaid          #+#    #+#             */
-/*   Updated: 2024/10/03 16:23:50 by pmarkaid         ###   ########.fr       */
+/*   Updated: 2024/10/21 13:31:58 by pmarkaid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,10 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	eval_args(argc, argv);
-	if (argc == 5)
-		argv[5] = "0";
-	table = init_table(argv);
+	table = init_table(argc, argv);
 	if (!table)
 	{
-		clean_data(table);
-		write(2, "ERROR: malloc failed\n", 21);
+		write(2, "ERROR: initalization failed\n", 21);
 		return (1);
 	}
 	status = handle_routine(table);
